@@ -8,11 +8,15 @@ form.addEventListener("input", throttle(savedAddInput, 500));
 form.addEventListener("submit", submitForm);
 
 const formData = {};
+
 updateInput ();
 
 function savedAddInput(event){
     event.preventDefault();
-    formData[event.target.name] = event.target.value;
+    const { email, message } = form.elements;
+    formData[email.name] = email.value;
+    formData[message.name] = message.value;
+    console.log(formData)
   
     localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(formData))
 
@@ -21,9 +25,11 @@ function savedAddInput(event){
 function submitForm (event) {
     event.preventDefault();
 
-    const { email, message } = event.target;
-    const formData = {email: email.value, message: message.value}
+    const { email, message } = form.elements;
+    formData[email.name] = email.value;
+    formData[message.name] = message.value;
     console.log(formData)
+    
     localStorage.removeItem(LOCALSTORAGE_KEY)
     form.reset();
 }
